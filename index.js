@@ -307,11 +307,20 @@ console.timeEnd("memoized factorial");
   we've covered or come up with your own)
 */
 
-class Factorial2 {
+class AddWithCache {
   constructor() {
     this.cache = {}
   }
-   method = [...this.cache]
+
+  addThreeNums(num1, num2, num3) {
+    let propName = `${num1}, ${num2}, ${num3}`
+    if (this.cache.hasOwnProperty(propName)) {
+      return this.cache[propName]
+    }
+    let answer = num1 + num2 + num3
+    this.cache[propName] = answer
+    return answer
+  }
 }
 
 /*
@@ -320,7 +329,10 @@ class Factorial2 {
     to the cache)
 */
 
-let newMethod = [...method]
+function nonCacheAddThreeNums(num1, num2, num3) {
+  let answer = num1 + num2 + num3
+  return answer
+}
 
 /*
     Before you see how much time they take, make a 
@@ -331,18 +343,17 @@ let newMethod = [...method]
 
 // Now fill this out and run your file
 
-// CREATE A NEW INSTANCE OF YOUR CLASS
-
+const myAdder = new AddWithCache()
 console.time("not memoized function time");
-console.log(/* CALL YOUR NONCACHE FN*/)
-console.log(/* CALL YOUR NONCACHE FN*/)
-console.log(/* CALL YOUR NONCACHE FN*/)
-console.log(/* CALL YOUR NONCACHE FN*/)
+console.log(nonCacheAddThreeNums(4, 5, 6))
+console.log(nonCacheAddThreeNums(4, 5, 6))
+console.log(nonCacheAddThreeNums(4, 5, 6))
+console.log(nonCacheAddThreeNums(4, 5, 6))
 console.timeEnd("not memoized function time");
 
 console.time("memoized function time");
-console.log(/* CALL THE METHOD FROM YOUR CLASS*/)
-console.log(/* CALL THE METHOD FROM YOUR CLASS*/)
-console.log(/* CALL THE METHOD FROM YOUR CLASS*/)
-console.log(/* CALL THE METHOD FROM YOUR CLASS*/)
+console.log(myAdder.addThreeNums(4, 5, 6))
+console.log(myAdder.addThreeNums(4, 5, 6))
+console.log(myAdder.addThreeNums(4, 5, 6))
+console.log(myAdder.addThreeNums(4, 5, 6))
 console.timeEnd("memoized function time");
